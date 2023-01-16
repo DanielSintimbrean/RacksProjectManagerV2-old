@@ -10,19 +10,33 @@ importers:
 
   packages/hardhat:
     specifiers:
+      '@ethersproject/abi': ^5.7.0
+      '@ethersproject/providers': ^5.7.2
+      '@nomicfoundation/hardhat-chai-matchers': ^1.0.5
+      '@nomicfoundation/hardhat-network-helpers': ^1.0.7
       '@nomicfoundation/hardhat-toolbox': ^2.0.0
+      '@nomiclabs/hardhat-ethers': ^2.2.2
       '@openzeppelin/contracts': ^4.8.1
       '@openzeppelin/contracts-upgradeable': ^4.8.1
+      chai: ^4.3.7
       erc721l: ^0.0.6
+      ethers: ^5.7.2
       hardhat: ^2.12.5
       solidity-docgen: 0.6.0-beta.34
     dependencies:
+      '@nomiclabs/hardhat-ethers': 2.2.2_ljvdvd7rotyr7m3znq3ladptlm
       '@openzeppelin/contracts': 4.8.1
       '@openzeppelin/contracts-upgradeable': 4.8.1
       erc721l: 0.0.6
+      ethers: 5.7.2
       solidity-docgen: 0.6.0-beta.34_hardhat@2.12.5
     devDependencies:
-      '@nomicfoundation/hardhat-toolbox': 2.0.0_qkk7im6hq722gxbuzyccjwsroy
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/providers': 5.7.2
+      '@nomicfoundation/hardhat-chai-matchers': 1.0.5_hlwdyodpebwwy2xnaoannmeosq
+      '@nomicfoundation/hardhat-network-helpers': 1.0.7_hardhat@2.12.5
+      '@nomicfoundation/hardhat-toolbox': 2.0.0_mui4wf2vljraxf6fkhlvej23qu
+      chai: 4.3.7
       hardhat: 2.12.5_z6wznmtyb6ovnulj6iujpct7um
 
   packages/t3-for-web3:
@@ -1830,7 +1844,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@nomicfoundation/hardhat-chai-matchers/1.0.5_mywy6onhf6rbpmm2xt3mpux6ba:
+  /@nomicfoundation/hardhat-chai-matchers/1.0.5_hlwdyodpebwwy2xnaoannmeosq:
     resolution: {integrity: sha512-+W5C/+5FHI2xBajUN9THSNc1UP6FUsA7LeLmfnaC9VMi/50/DEjjxd8OmizEXgV1Bjck7my4NVQLL1Ti39FkpA==}
     peerDependencies:
       '@nomiclabs/hardhat-ethers': ^2.0.0
@@ -1839,7 +1853,7 @@ packages:
       hardhat: ^2.9.4
     dependencies:
       '@ethersproject/abi': 5.7.0
-      '@nomiclabs/hardhat-ethers': 2.2.1_ljvdvd7rotyr7m3znq3ladptlm
+      '@nomiclabs/hardhat-ethers': 2.2.2_ljvdvd7rotyr7m3znq3ladptlm
       '@types/chai-as-promised': 7.1.5
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
@@ -1859,7 +1873,7 @@ packages:
       hardhat: 2.12.5_z6wznmtyb6ovnulj6iujpct7um
     dev: true
 
-  /@nomicfoundation/hardhat-toolbox/2.0.0_qkk7im6hq722gxbuzyccjwsroy:
+  /@nomicfoundation/hardhat-toolbox/2.0.0_mui4wf2vljraxf6fkhlvej23qu:
     resolution: {integrity: sha512-BoOPbzLQ1GArnBZd4Jz4IU8FY3RY4nUwpXlfymXwxlXNimngkPRJj7ivVNurD7igohEjf90v/Axn2M5WwAdCJQ==}
     peerDependencies:
       '@ethersproject/abi': ^5.4.7
@@ -1884,9 +1898,9 @@ packages:
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/providers': 5.7.2
-      '@nomicfoundation/hardhat-chai-matchers': 1.0.5_mywy6onhf6rbpmm2xt3mpux6ba
+      '@nomicfoundation/hardhat-chai-matchers': 1.0.5_hlwdyodpebwwy2xnaoannmeosq
       '@nomicfoundation/hardhat-network-helpers': 1.0.7_hardhat@2.12.5
-      '@nomiclabs/hardhat-ethers': 2.2.1_ljvdvd7rotyr7m3znq3ladptlm
+      '@nomiclabs/hardhat-ethers': 2.2.2_ljvdvd7rotyr7m3znq3ladptlm
       '@nomiclabs/hardhat-etherscan': 3.1.4_hardhat@2.12.5
       '@typechain/ethers-v5': 10.2.0_uvzrz6if4akbrktgtw2vfdalai
       '@typechain/hardhat': 6.1.5_dove5aw6wtorxirlva37e5zxla
@@ -1998,15 +2012,14 @@ packages:
       '@nomicfoundation/solidity-analyzer-win32-ia32-msvc': 0.1.0
       '@nomicfoundation/solidity-analyzer-win32-x64-msvc': 0.1.0
 
-  /@nomiclabs/hardhat-ethers/2.2.1_ljvdvd7rotyr7m3znq3ladptlm:
-    resolution: {integrity: sha512-RHWYwnxryWR8hzRmU4Jm/q4gzvXpetUOJ4OPlwH2YARcDB+j79+yAYCwO0lN1SUOb4++oOTJEe6AWLEc42LIvg==}
+  /@nomiclabs/hardhat-ethers/2.2.2_ljvdvd7rotyr7m3znq3ladptlm:
+    resolution: {integrity: sha512-NLDlDFL2us07C0jB/9wzvR0kuLivChJWCXTKcj3yqjZqMoYp7g7wwS157F70VHx/+9gHIBGzak5pKDwG8gEefA==}
     peerDependencies:
       ethers: ^5.0.0
       hardhat: ^2.0.0
     dependencies:
       ethers: 5.7.2
       hardhat: 2.12.5_z6wznmtyb6ovnulj6iujpct7um
-    dev: true
 
   /@nomiclabs/hardhat-etherscan/3.1.4_hardhat@2.12.5:
     resolution: {integrity: sha512-fw8JCfukf6MdIGoySRmSftlM2wBgoaSbWQZgiYfD/KTeaSFEWCdMpuPZcLSBXtwtnQyyWDs07Lo7fL8HSqtD2Q==}

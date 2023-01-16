@@ -24,7 +24,7 @@ import "./library/StructuredLinkedList.sol";
 // ▟███████████████     ▜██████▙      ▟█████▛   ▟██████▛   ▟█████████████████████▙
 //                        ▜██████▙            ▟██████▛          ┌────────┐
 //                          ▜██████▙        ▟██████▛            │  LABS  │
-//                                                                 └────────┘
+//                                                              └────────┘
 
 contract RacksProjectManager is
 	IRacksProjectManager,
