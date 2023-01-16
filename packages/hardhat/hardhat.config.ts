@@ -1,8 +1,25 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "solidity-docgen";
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.17",
+  solidity: {
+    version: "0.8.7",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+    compilers: [
+      {
+        version: "0.8.7",
+      },
+      {
+        version: "0.8.0",
+      },
+    ],
+  },
   typechain: {
     outDir: "types/contracts",
     alwaysGenerateOverloads: true,
@@ -12,6 +29,9 @@ const config: HardhatUserConfig = {
     hardhat: {
       chainId: 1337,
     },
+  },
+  docgen: {
+    pages: "files",
   },
 };
 

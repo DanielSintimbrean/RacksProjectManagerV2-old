@@ -17,6 +17,9 @@
     "hardhat": "^2.12.5"
   },
   "dependencies": {
-    "erc721l": "^0.0.6"
+    "@openzeppelin/contracts": "^4.8.1",
+    "@openzeppelin/contracts-upgradeable": "^4.8.1",
+    "erc721l": "^0.0.6",
+    "solidity-docgen": "0.6.0-beta.34"
   }
 }
