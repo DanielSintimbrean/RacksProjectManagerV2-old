@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "lerna run dev --concurrency=10 --parallel",
+    "build": "lerna run build --concurrency=10 --parallel"
+  },
+  "devDependencies": {
+    "lerna": "^6.4.0"
+  }
+}

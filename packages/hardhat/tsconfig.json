@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "declaration": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "composite": true
+  },
+  "include": ["**/*.ts"]
+}

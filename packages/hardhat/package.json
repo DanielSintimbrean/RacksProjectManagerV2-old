@@ -1,0 +1,22 @@
+{
+  "name": "my-hardhat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/types/contracts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "hardhat compile",
+    "dev": "ts-node scripts/dev.ts",
+    "build": "tsc --build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.12.5"
+  },
+  "dependencies": {
+    "erc721l": "^0.0.6"
+  }
+}
