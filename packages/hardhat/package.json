@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "hardhat compile",
     "dev": "ts-node scripts/dev.ts",
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "format": "prettier -w . && prettier -w 'contracts/**/*.sol'"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "eslint-config-prettier": "^8.6.0",
     "hardhat": "^2.12.5",
     "prettier": "^2.8.1",
+    "prettier-plugin-solidity": "^1.1.1",
     "typescript": "^4.8.4"
   },
   "dependencies": {

@@ -37,7 +37,7 @@ interface IRacksProjectManager {
 
     /**
      * @notice Get the address of the ERC20 used in RacksProjectsManger for colateral in projects
-     * 
+     *
      */
     function getERC20Interface() external view returns (IERC20);
 
@@ -59,12 +59,17 @@ interface IRacksProjectManager {
     /**
      * @notice Returns all the data associated with @param _account contributor
      */
-    function getContributorData(address _account) external view returns (Contributor memory);
+    function getContributorData(
+        address _account
+    ) external view returns (Contributor memory);
 
     /**
      * @notice Update contributor data associated with @param _account contributor
      */
-    function setAccountToContributorData(address _account, Contributor memory _newData) external;
+    function setAccountToContributorData(
+        address _account,
+        Contributor memory _newData
+    ) external;
 
     /**
      * @notice Return true if the RacksProjectsManager is paused, otherwise false

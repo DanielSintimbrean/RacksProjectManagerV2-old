@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -17,28 +17,21 @@ import { trpc } from "../utils/trpc";
 const ProfilePage: NextPage = () => {
   const trpcUtils = trpc.useContext();
   const router = useRouter();
-  const session = useSession();
-  const [newName, setNewName] = useState("");
 
-  const { data, refetch: refetchContributorData } = useContractRead({
+  const { data, refetch: refetchGetStorage } = useContractRead({
     address,
     abi,
     functionName: "getContributorData",
-    ...(session.session.user?.address && {
-      args: [session.session.user.address as `0x${string}`],
-    }),
+    args: [session.session.user.address],
   });
 
-  /**
-   * Create project Hook
-   */
   const { config } = usePrepareContractWrite({
     abi,
     address,
-    functionName: "createProject",
-    args: ["name", BigNumber.from(0), BigNumber.from(0), BigNumber.from(0)],
+    functionName: "setStorageVariable2",
+    args: [data ? BigNumber.from(data).add(1) : BigNumber.from(0)],
     onSuccess: async () => {
-      await refetchContributorData();
+      await refetchGetStorage();
     },
   });
 
@@ -46,14 +39,16 @@ const ProfilePage: NextPage = () => {
 
   useWaitForTransaction({
     hash: txData?.hash,
-    onSuccess: () => refetchContributorData(),
+    onSuccess: () => refetchGetStorage(),
   });
+
+  const session = useSession();
+  const [newName, setNewName] = useState("");
 
   const { data: mrcImages } = trpc.mrCrypto.getMrcNftImages.useQuery(
     undefined,
     {}
   );
-
   const { mutateAsync: changeNameAsync } = trpc.profile.changeName.useMutation({
     onSuccess: () => {
       trpcUtils.auth.getSession.invalidate();

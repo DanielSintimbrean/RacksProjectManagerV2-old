@@ -1,9 +1,9 @@
-import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { assert, expect } from "chai";
-import { BigNumber } from "ethers";
-import { network, ethers } from "hardhat";
-import { developmentChains } from "../helper-hardhat-config";
+import {loadFixture} from "@nomicfoundation/hardhat-network-helpers";
+import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
+import {assert, expect} from "chai";
+import {BigNumber} from "ethers";
+import {network, ethers} from "hardhat";
+import {developmentChains} from "../helper-hardhat-config";
 import {
   ERC20Mock,
   HolderValidation,
@@ -11,7 +11,7 @@ import {
   Project,
   RacksProjectManager,
 } from "../types/contracts";
-import { deployDevChain } from "../utils/deployments/deployDevChain";
+import {deployDevChain} from "../utils/deployments/deployDevChain";
 
 !developmentChains.includes(network.name)
   ? describe.skip

@@ -5,14 +5,14 @@ import {
   RacksProjectManager,
 } from "../types/contracts";
 
-import { assert, expect } from "chai";
-import { network, ethers } from "hardhat";
+import {assert, expect} from "chai";
+import {network, ethers} from "hardhat";
 
-import { developmentChains } from "../helper-hardhat-config";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { deployDevChain } from "../utils/deployments/deployDevChain";
-import { BigNumber } from "ethers";
-import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
+import {developmentChains} from "../helper-hardhat-config";
+import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
+import {deployDevChain} from "../utils/deployments/deployDevChain";
+import {BigNumber} from "ethers";
+import {loadFixture} from "@nomicfoundation/hardhat-network-helpers";
 
 /**
  * Run only on development chains

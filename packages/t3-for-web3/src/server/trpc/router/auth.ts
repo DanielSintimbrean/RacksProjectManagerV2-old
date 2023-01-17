@@ -3,6 +3,7 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { siweMessageSchema } from "../../../utils/validator/siwe";
 import { TRPCError } from "@trpc/server";
+import { HolderValidationContract } from "@smart-contracts/abi/holderValidator";
 
 export const authRouter = router({
   getSession: publicProcedure.query(({ ctx }) => {
@@ -56,6 +57,18 @@ export const authRouter = router({
           signature: input.signature,
           nonce: ctx.session.nonce,
         });
+
+        // Check if the user is a holder
+        const isHolder = await HolderValidationContract.isHolder(
+          fields.data.address
+        );
+
+        if (!isHolder) {
+          throw new TRPCError({
+            message: "You are not a holder",
+            code: "BAD_REQUEST",
+          });
+        }
 
         let user = await ctx.prisma.user.findUnique({
           where: { address: fields.data.address },

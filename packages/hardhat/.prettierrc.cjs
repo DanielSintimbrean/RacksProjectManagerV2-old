@@ -7,7 +7,7 @@ module.exports = {
   semi: true,
   overrides: [
     {
-      files: "*.sol",
+      files: "contracts/**/*.sol",
       options: {
         printWidth: 80,
         tabWidth: 4,
@@ -17,4 +17,5 @@ module.exports = {
       },
     },
   ],
+  plugins: [require("prettier-plugin-solidity")],
 };

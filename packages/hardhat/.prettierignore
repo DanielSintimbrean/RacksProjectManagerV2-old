@@ -3,3 +3,4 @@ cache/*
 dist/*
 docs/*
 types/contracts/*
+coverage/*

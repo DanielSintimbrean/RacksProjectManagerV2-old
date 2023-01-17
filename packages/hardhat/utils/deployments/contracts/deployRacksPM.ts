@@ -1,5 +1,5 @@
-import { ethers, network } from "hardhat";
-import { deploymentChains } from "./../../../helper-hardhat-config";
+import {ethers, network} from "hardhat";
+import {deploymentChains} from "./../../../helper-hardhat-config";
 
 type DeployRacksPM = {
   MrCryptoAddress: string;
@@ -32,7 +32,7 @@ export const deployRacksPM = async ({
     // TODO: add etherscan verification
   }
 
-  return { RacksPM, HolderValidation };
+  return {RacksPM, HolderValidation};
 };
 
 module.exports.tags = ["all", "rackspm"];

@@ -1,5 +1,5 @@
-import { ethers, network } from "hardhat";
-import { isDeploymentChain } from "../../../helper-hardhat-config";
+import {ethers, network} from "hardhat";
+import {isDeploymentChain} from "../../../helper-hardhat-config";
 
 export const deployMocks = async () => {
   const MrCryptoNFT_Factory = await ethers.getContractFactory("MrCryptoNFT");
@@ -18,5 +18,5 @@ export const deployMocks = async () => {
     // TODO: Verify contracts on Etherscan
   }
 
-  return { MrCryptoNFT, MockErc20 };
+  return {MrCryptoNFT, MockErc20};
 };

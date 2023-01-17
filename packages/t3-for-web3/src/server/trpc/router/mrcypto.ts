@@ -1,3 +1,4 @@
+import { HolderValidationContract } from "../../../smart-contracts/abi/holderValidator";
 import type { MrCryptoMetadataType } from "../../../smart-contracts/abi/metadata";
 import { MrCryptoContract } from "../../../smart-contracts/abi/mrcrypto";
 import { ipfsGateway } from "../../../utils/ipfs";
@@ -25,5 +26,14 @@ export const mrCryptoRouter = router({
     const data = mrcNftsData.map((nft) => ipfsGateway(nft.image));
 
     return { data };
+  }),
+
+  /**
+   * Check if the current user is a holder of the NFT that are in the contract HolderValidation.sol
+   */
+  isHolder: protectedProcedure.query(async ({ ctx }) => {
+    const isHolder = await HolderValidationContract.isHolder(ctx.user.address);
+
+    return { isHolder };
   }),
 });

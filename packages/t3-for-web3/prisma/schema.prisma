@@ -17,9 +17,40 @@ model Example {
 }
 
 model User {
+  id          String        @id @default(cuid()) @map("_id")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  address     String        @unique
+  name        String
+  discordId   String        @unique
+  avatar      String
+  github      String
+  projectId   String?
+  UserProject UserProject[] @relation(name: "UserProjectsPartificipantion")
+  Project     Project[]     @relation(name: "UserProjectsOwner")
+}
+
+model UserProject {
   id        String   @id @default(cuid()) @map("_id")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  address   String   @unique
-  name      String
+  joined    DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], name: "UserProjectsPartificipantion")
+  userId    String
+  Project   Project  @relation(fields: [projectId], references: [id], name: "Participants")
+  projectId String
+
+  @@unique([userId, projectId])
+}
+
+model Project {
+  id          String   @id @default(cuid()) @map("_id")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String
+  owner       User     @relation(fields: [ownerId], references: [id], name: "UserProjectsOwner")
+  ownerId     String
+  github      String
+  discordId   String
+
+  UserProject UserProject[] @relation(name: "Participants")
 }

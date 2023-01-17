@@ -1,24 +1,24 @@
 {
   "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#ffff33",
-    "activityBar.background": "#ffff33",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#00bfbf",
+    "activityBar.activeBackground": "#b300b3",
+    "activityBar.background": "#b300b3",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#9f9f00",
     "activityBarBadge.foreground": "#15202b",
-    "commandCenter.border": "#15202b99",
-    "sash.hoverBorder": "#ffff33",
-    "statusBar.background": "#ffff00",
-    "statusBar.foreground": "#15202b",
-    "statusBarItem.hoverBackground": "#cccc00",
-    "statusBarItem.remoteBackground": "#ffff00",
-    "statusBarItem.remoteForeground": "#15202b",
-    "titleBar.activeBackground": "#ffff00",
-    "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveBackground": "#ffff0099",
-    "titleBar.inactiveForeground": "#15202b99"
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#b300b3",
+    "statusBar.background": "#800080",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#b300b3",
+    "statusBarItem.remoteBackground": "#800080",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#800080",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#80008099",
+    "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "yellow",
+  "peacock.color": "purple",
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "eslint.options": {
     "extensions": [".js", ".jsx", ".ts", ".tsx"]
@@ -26,5 +26,9 @@
 
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "[solidity]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

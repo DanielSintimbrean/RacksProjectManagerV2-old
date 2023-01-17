@@ -1,5 +1,5 @@
-import { ethers, network } from "hardhat";
-import { deploymentChains } from "../../../helper-hardhat-config";
+import {ethers, network} from "hardhat";
+import {deploymentChains} from "../../../helper-hardhat-config";
 
 type DeployProxy = {
   RacksPrayerManagerAddress: string;
@@ -44,5 +44,5 @@ export const deployProxy = async ({
     // TODO: add etherscan verification
   }
 
-  return { ProxyAdmin, TransparentUpgradeableProxy };
+  return {ProxyAdmin, TransparentUpgradeableProxy};
 };

@@ -14,7 +14,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@smart-contracts/*": ["./src/smart-contracts/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
