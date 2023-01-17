@@ -19,5 +19,12 @@
     "titleBar.inactiveForeground": "#15202b99"
   },
   "peacock.color": "yellow",
-  "eslint.workingDirectories": [{ "mode": "auto" }]
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".ts", ".tsx"]
+  },
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

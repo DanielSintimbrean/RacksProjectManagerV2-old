@@ -9,5 +9,10 @@
     "strict": true,
     "composite": true
   },
-  "include": ["**/*.ts", "helper-hardhat-config.ts"]
+  "include": [
+    "**/*.ts",
+    "helper-hardhat-config.ts",
+    ".eslintrc.cjs",
+    "prettier.config.cjs"
+  ]
 }

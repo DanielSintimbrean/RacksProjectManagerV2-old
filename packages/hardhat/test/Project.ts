@@ -52,7 +52,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           "Project1",
           ethers.utils.parseEther("100"),
           1,
-          2
+          2,
         );
         const projectAddress = (await RacksPM.getProjects())[0];
 
@@ -71,13 +71,13 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
       describe("Register Project Contributor", () => {
         it("Should revert with contributorErr", async () => {
           await expect(
-            projectContract.connect(user1).registerProjectContributor()
+            projectContract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(projectContract, "contributorErr");
         });
 
         it("Should revert with contributorErr because can not remove a contributor that is not in the project", async () => {
           await expect(
-            projectContract.removeContributor(user1.address, true)
+            projectContract.removeContributor(user1.address, true),
           ).to.be.revertedWithCustomError(projectContract, "contributorErr");
         });
 
@@ -90,10 +90,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user1).registerProjectContributor();
 
           await expect(
-            projectContract.connect(user1).registerProjectContributor()
+            projectContract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectContributorAlreadyExistsErr"
+            "projectContributorAlreadyExistsErr",
           );
 
           const previosBalance = await erc20.balanceOf(user2.address);
@@ -106,7 +106,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user2).registerProjectContributor();
 
           expect(await projectContract.getNumberOfContributors()).to.deep.equal(
-            BigNumber.from(2)
+            BigNumber.from(2),
           );
 
           await mrc.connect(user3).mint(1);
@@ -116,17 +116,17 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .approve(projectContract.address, ethers.utils.parseEther("100"));
 
           await expect(
-            projectContract.connect(user3).registerProjectContributor()
+            projectContract.connect(user3).registerProjectContributor(),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "maxContributorsNumberExceededErr"
+            "maxContributorsNumberExceededErr",
           );
 
           // if remove one contributor you can add an other one
           await projectContract.removeContributor(user2.address, true);
 
           expect(await projectContract.getNumberOfContributors()).to.deep.equal(
-            BigNumber.from(1)
+            BigNumber.from(1),
           );
 
           const postBalance = await erc20.balanceOf(user2.address);
@@ -135,7 +135,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user3).registerProjectContributor();
 
           expect(await projectContract.getNumberOfContributors()).to.deep.equal(
-            BigNumber.from(2)
+            BigNumber.from(2),
           );
         });
 
@@ -149,10 +149,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           expect(await RacksPM.isContributorBanned(user1.address)).to.be.true;
 
           await expect(
-            projectContract.connect(user1).registerProjectContributor()
+            projectContract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectContributorIsBannedErr"
+            "projectContributorIsBannedErr",
           );
         });
 
@@ -161,13 +161,13 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             "Project2",
             ethers.utils.parseEther("100"),
             2,
-            3
+            3,
           );
           const projects = await RacksPM.getProjects();
           const projectAddress2 = projects[0];
 
           const Project2 = await ethers.getContractFactory("Project");
-          let project2Contract = Project2.attach(projectAddress2);
+          const project2Contract = Project2.attach(projectAddress2);
           await project2Contract.approveProject();
 
           await mrc.connect(user1).mint(1);
@@ -177,10 +177,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .approve(projectContract.address, ethers.utils.parseEther("100"));
 
           await expect(
-            project2Contract.connect(user1).registerProjectContributor()
+            project2Contract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(
             project2Contract,
-            "projectContributorHasNoReputationEnoughErr"
+            "projectContributorHasNoReputationEnoughErr",
           );
         });
 
@@ -191,14 +191,14 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .connect(user1)
             .approve(projectContract.address, ethers.utils.parseEther("100"));
           expect(
-            await erc20.allowance(user1.address, projectContract.address)
+            await erc20.allowance(user1.address, projectContract.address),
           ).to.be.equal(await projectContract.getColateralCost());
           await projectContract.connect(user1).registerProjectContributor();
           const projectContributorsAddress =
             await projectContract.getAllContributorsAddress();
           assert(projectContributorsAddress[0] === user1.address);
           expect(await projectContract.getNumberOfContributors()).to.deep.equal(
-            BigNumber.from(1)
+            BigNumber.from(1),
           );
         });
         it("Should revert if the smart contract is paused", async () => {
@@ -211,7 +211,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await RacksPM.setIsPaused(true);
 
           await expect(
-            projectContract.connect(user1).registerProjectContributor()
+            projectContract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
         });
         it("Should revert if the project is deleted", async () => {
@@ -224,7 +224,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.deleteProject();
 
           await expect(
-            projectContract.connect(user1).registerProjectContributor()
+            projectContract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(projectContract, "deletedErr");
         });
       });
@@ -234,7 +234,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await expect(
             projectContract
               .connect(user1)
-              .finishProject(500, [user2.address], [20])
+              .finishProject(500, [user2.address], [20]),
           ).to.be.revertedWithCustomError(projectContract, "adminErr");
         });
 
@@ -247,7 +247,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user1).registerProjectContributor();
 
           await expect(
-            projectContract.finishProject(500, [user2.address], [20])
+            projectContract.finishProject(500, [user2.address], [20]),
           ).to.be.revertedWithCustomError(projectContract, "contributorErr");
         });
 
@@ -260,24 +260,24 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user2).registerProjectContributor();
 
           await expect(
-            projectContract.finishProject(500, [user2.address], [])
+            projectContract.finishProject(500, [user2.address], []),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
 
           await expect(
-            projectContract.finishProject(500, [], [20])
+            projectContract.finishProject(500, [], [20]),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
 
           await expect(
-            projectContract.finishProject(0, [user2.address], [20])
+            projectContract.finishProject(0, [user2.address], [20]),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
         });
 
@@ -300,11 +300,11 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             projectContract.finishProject(
               500,
               [user2.address],
-              [ethers.utils.parseEther("100")]
-            )
+              [ethers.utils.parseEther("100")],
+            ),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
         });
 
@@ -315,11 +315,11 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .connect(user1)
             .approve(projectContract.address, ethers.utils.parseEther("100"));
           expect(await erc20.balanceOf(user1.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
           await projectContract.connect(user1).registerProjectContributor();
           expect(await erc20.balanceOf(user1.address)).to.be.equal(
-            ethers.utils.parseEther("9900")
+            ethers.utils.parseEther("9900"),
           );
 
           (await mrc.connect(user2).mint(1)).wait();
@@ -328,22 +328,22 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .connect(user2)
             .approve(projectContract.address, ethers.utils.parseEther("100"));
           expect(await erc20.balanceOf(user2.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
           await projectContract.connect(user2).registerProjectContributor();
           expect(await erc20.balanceOf(user2.address)).to.be.equal(
-            ethers.utils.parseEther("9900")
+            ethers.utils.parseEther("9900"),
           );
 
           await expect(
             projectContract.finishProject(
               500,
               [user2.address, user1.address],
-              [70, 70]
-            )
+              [70, 70],
+            ),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
         });
 
@@ -357,10 +357,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.finishProject(500, [user2.address], [100]);
 
           await expect(
-            projectContract.finishProject(500, [user2.address], [100])
+            projectContract.finishProject(500, [user2.address], [100]),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectFinishedErr"
+            "projectFinishedErr",
           );
         });
 
@@ -371,11 +371,11 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .connect(user1)
             .approve(projectContract.address, ethers.utils.parseEther("100"));
           expect(await erc20.balanceOf(user1.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
           await projectContract.connect(user1).registerProjectContributor();
           expect(await erc20.balanceOf(user1.address)).to.be.equal(
-            ethers.utils.parseEther("9900")
+            ethers.utils.parseEther("9900"),
           );
 
           (await mrc.connect(user2).mint(1)).wait();
@@ -384,11 +384,11 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .connect(user2)
             .approve(projectContract.address, ethers.utils.parseEther("100"));
           expect(await erc20.balanceOf(user2.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
           await projectContract.connect(user2).registerProjectContributor();
           expect(await erc20.balanceOf(user2.address)).to.be.equal(
-            ethers.utils.parseEther("9900")
+            ethers.utils.parseEther("9900"),
           );
 
           expect(await projectContract.isFinished()).to.be.false;
@@ -396,23 +396,23 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.finishProject(
             500,
             [user2.address, user1.address],
-            [70, 30]
+            [70, 30],
           );
 
           expect(await projectContract.isFinished()).to.be.true;
 
           expect(await erc20.balanceOf(user1.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
           expect(await erc20.balanceOf(user2.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
 
           expect(
-            await projectContract.getContributorParticipation(user1.address)
+            await projectContract.getContributorParticipation(user1.address),
           ).to.be.equal(30);
           expect(
-            await projectContract.getContributorParticipation(user2.address)
+            await projectContract.getContributorParticipation(user2.address),
           ).to.be.equal(70);
 
           const pcUser1 = await RacksPM.getContributorData(user1.address);
@@ -444,19 +444,19 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.finishProject(
             500,
             [user2.address, user1.address],
-            [70, 30]
+            [70, 30],
           );
 
           await RacksPM.createProject(
             "Project2",
             ethers.utils.parseEther("100"),
             1,
-            3
+            3,
           );
           const projectAddress2 = (await RacksPM.getProjects())[0];
 
           const Project2 = await ethers.getContractFactory("Project");
-          let project2Contract = Project2.attach(projectAddress2);
+          const project2Contract = Project2.attach(projectAddress2);
           await project2Contract.approveProject();
 
           await mrc.connect(user3).mint(1);
@@ -465,15 +465,15 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .connect(user3)
             .approve(project2Contract.address, ethers.utils.parseEther("100"));
           expect(await erc20.balanceOf(user3.address)).to.be.equal(
-            ethers.utils.parseEther("10000")
+            ethers.utils.parseEther("10000"),
           );
           await project2Contract.connect(user3).registerProjectContributor();
           expect(await erc20.balanceOf(user3.address)).to.be.equal(
-            ethers.utils.parseEther("9900")
+            ethers.utils.parseEther("9900"),
           );
           await RacksPM.setContributorStateToBanList(user3.address, true);
           expect(await RacksPM.isContributorBanned(user3.address)).to.be.equal(
-            true
+            true,
           );
 
           await erc20
@@ -489,21 +489,21 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await project2Contract.finishProject(
             500,
             [user2.address, user1.address],
-            [65, 35]
+            [65, 35],
           );
 
           expect(await erc20.balanceOf(user3.address)).to.be.equal(
-            ethers.utils.parseEther("9900")
+            ethers.utils.parseEther("9900"),
           );
           expect(await erc20.balanceOf(user2.address)).to.be.equal(
-            ethers.utils.parseEther("10065")
+            ethers.utils.parseEther("10065"),
           );
           expect(await erc20.balanceOf(user1.address)).to.be.equal(
-            ethers.utils.parseEther("10035")
+            ethers.utils.parseEther("10035"),
           );
 
           expect(
-            await project2Contract.getContributorParticipation(user3.address)
+            await project2Contract.getContributorParticipation(user3.address),
           ).to.be.equal(0);
 
           const pcUserBanned = await RacksPM.getContributorData(user3.address);
@@ -542,17 +542,17 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             projectContract.finishProject(
               500,
               [user2.address, user1.address],
-              [70, 30]
-            )
+              [70, 30],
+            ),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
 
           await RacksPM.setIsPaused(false);
 
           await expect(
-            projectContract.deleteProject()
+            projectContract.deleteProject(),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectNoEditableErr"
+            "projectNoEditableErr",
           );
         });
       });
@@ -561,36 +561,36 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
         it("Should revert with pausedErr", async () => {
           await await RacksPM.setIsPaused(true);
           await expect(
-            projectContract.setColateralCost(ethers.utils.parseEther("100"))
+            projectContract.setColateralCost(ethers.utils.parseEther("100")),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
 
           await expect(
-            projectContract.setName("Project Updated")
+            projectContract.setName("Project Updated"),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
 
           await expect(
-            projectContract.setReputationLevel(3)
+            projectContract.setReputationLevel(3),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
           await expect(
-            projectContract.setMaxContributorsNumber(3)
+            projectContract.setMaxContributorsNumber(3),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
         });
 
         it("Should revert with deletedErr", async () => {
           await await projectContract.deleteProject();
           await expect(
-            projectContract.setColateralCost(ethers.utils.parseEther("100"))
+            projectContract.setColateralCost(ethers.utils.parseEther("100")),
           ).to.be.revertedWithCustomError(projectContract, "deletedErr");
 
           await expect(
-            projectContract.setName("Project Updated")
+            projectContract.setName("Project Updated"),
           ).to.be.revertedWithCustomError(projectContract, "deletedErr");
 
           await expect(
-            projectContract.setReputationLevel(3)
+            projectContract.setReputationLevel(3),
           ).to.be.revertedWithCustomError(projectContract, "deletedErr");
           await expect(
-            projectContract.setMaxContributorsNumber(3)
+            projectContract.setMaxContributorsNumber(3),
           ).to.be.revertedWithCustomError(projectContract, "deletedErr");
         });
         it("Should revert with adminErr", async () => {
@@ -599,34 +599,34 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           //     projectContract.connect(user1).setColateralCost(100)
           // ).to.be.revertedWithCustomError(projectContract, "adminErr");
           await expect(
-            projectContract.connect(user1).setName("Project Updated")
+            projectContract.connect(user1).setName("Project Updated"),
           ).to.be.revertedWithCustomError(projectContract, "adminErr");
           await expect(
-            projectContract.connect(user1).setReputationLevel(3)
+            projectContract.connect(user1).setReputationLevel(3),
           ).to.be.revertedWithCustomError(projectContract, "adminErr");
           await expect(
-            projectContract.connect(user1).setMaxContributorsNumber(3)
+            projectContract.connect(user1).setMaxContributorsNumber(3),
           ).to.be.revertedWithCustomError(projectContract, "adminErr");
         });
 
         it("Should revert with projectInvalidParameterErr", async () => {
           await expect(
-            projectContract.setName("")
+            projectContract.setName(""),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
           await expect(
-            projectContract.setReputationLevel(0)
+            projectContract.setReputationLevel(0),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
           await expect(
-            projectContract.setMaxContributorsNumber(0)
+            projectContract.setMaxContributorsNumber(0),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
         });
 
@@ -639,35 +639,35 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user1).registerProjectContributor();
 
           await expect(
-            projectContract.setName("Project Updated")
+            projectContract.setName("Project Updated"),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectNoEditableErr"
+            "projectNoEditableErr",
           );
           await expect(
-            projectContract.setColateralCost(200)
+            projectContract.setColateralCost(200),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectNoEditableErr"
+            "projectNoEditableErr",
           );
           await expect(
-            projectContract.setReputationLevel(3)
+            projectContract.setReputationLevel(3),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectNoEditableErr"
+            "projectNoEditableErr",
           );
           await expect(
-            projectContract.setMaxContributorsNumber(0)
+            projectContract.setMaxContributorsNumber(0),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
 
           await expect(
-            projectContract.deleteProject()
+            projectContract.deleteProject(),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectNoEditableErr"
+            "projectNoEditableErr",
           );
         });
 
@@ -684,10 +684,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .approve(projectContract.address, ethers.utils.parseEther("100"));
 
           await expect(
-            projectContract.connect(user1).registerProjectContributor()
+            projectContract.connect(user1).registerProjectContributor(),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "projectContributorHasNoReputationEnoughErr"
+            "projectContributorHasNoReputationEnoughErr",
           );
 
           const name = await projectContract.getName();
@@ -705,20 +705,20 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
       describe("Give away extra rewards after Project is finished", () => {
         it("Should revert with adminErr", async () => {
           await expect(
-            projectContract.connect(user1).giveAway()
+            projectContract.connect(user1).giveAway(),
           ).to.be.revertedWithCustomError(projectContract, "adminErr");
         });
 
         it("Should revert with pausedErr", async () => {
           RacksPM.setIsPaused(true);
           await expect(
-            projectContract.giveAway()
+            projectContract.giveAway(),
           ).to.be.revertedWithCustomError(RacksPM, "pausedErr");
         });
 
         it("Should revert with notCompletedErr", async () => {
           await expect(
-            projectContract.giveAway()
+            projectContract.giveAway(),
           ).to.be.revertedWithCustomError(projectContract, "notCompletedErr");
         });
 
@@ -740,7 +740,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.finishProject(
             500,
             [user2.address, user1.address],
-            [50, 50]
+            [50, 50],
           );
         });
       });
@@ -748,10 +748,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
         it("Should revert with invalidParameterErr on project with no contributors", async () => {
           await erc20.connect(user2).approve(projectContract.address, 500);
           await expect(
-            projectContract.connect(user2).fundProject(500)
+            projectContract.connect(user2).fundProject(500),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "invalidParameterErr"
+            "invalidParameterErr",
           );
 
           await mrc.connect(user1).mint(1);
@@ -762,10 +762,10 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user1).registerProjectContributor();
 
           await expect(
-            projectContract.connect(user2).fundProject(0)
+            projectContract.connect(user2).fundProject(0),
           ).to.be.revertedWithCustomError(
             projectContract,
-            "invalidParameterErr"
+            "invalidParameterErr",
           );
         });
 
@@ -778,7 +778,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
           await projectContract.connect(user1).registerProjectContributor();
 
           await expect(
-            projectContract.connect(user2).fundProject(500)
+            projectContract.connect(user2).fundProject(500),
           ).to.be.revertedWith("ERC20: insufficient allowance");
         });
 
@@ -797,14 +797,14 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
             .fundProject(ethers.utils.parseEther("500"));
           const rc = await tx.wait();
           const event = rc.events?.find(
-            (e) => e.event == "projectFunded"
+            (e) => e.event == "projectFunded",
           )?.args;
           await expect(event).to.exist;
           await expect(
-            await projectContract.getAccountFunds(user2.address)
+            await projectContract.getAccountFunds(user2.address),
           ).to.be.equal(ethers.utils.parseEther("500"));
           await expect(
-            await projectContract.getTotalAmountFunded()
+            await projectContract.getTotalAmountFunded(),
           ).to.be.equal(ethers.utils.parseEther("500"));
         });
       });

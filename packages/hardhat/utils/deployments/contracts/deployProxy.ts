@@ -1,9 +1,5 @@
 import { ethers, network } from "hardhat";
-import {
-  developmentChains,
-  deploymentChains,
-  VERIFICATION_BLOCK_CONFIRMATIONS,
-} from "../../../helper-hardhat-config";
+import { deploymentChains } from "../../../helper-hardhat-config";
 
 type DeployProxy = {
   RacksPrayerManagerAddress: string;
@@ -18,23 +14,23 @@ export const deployProxy = async ({
   const ProxyAdmin = await ProxyAdmin_Factory.deploy();
 
   const TransparentUpgradeableProxy_Factory = await ethers.getContractFactory(
-    "TransparentUpgradeableProxy"
+    "TransparentUpgradeableProxy",
   );
 
   const TransparentUpgradeableProxy =
     await TransparentUpgradeableProxy_Factory.deploy(
       RacksPrayerManagerAddress,
       ProxyAdmin.address,
-      []
+      [],
     );
 
   const RacksProjectManager = await ethers.getContractAt(
     "RacksProjectManager",
-    RacksPrayerManagerAddress
+    RacksPrayerManagerAddress,
   );
 
   const RacksProxy = RacksProjectManager.attach(
-    TransparentUpgradeableProxy.address
+    TransparentUpgradeableProxy.address,
   );
   const owner = await RacksProxy.owner();
   if (owner === ethers.constants.AddressZero) {
@@ -45,6 +41,7 @@ export const deployProxy = async ({
     deploymentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
+    // TODO: add etherscan verification
   }
 
   return { ProxyAdmin, TransparentUpgradeableProxy };

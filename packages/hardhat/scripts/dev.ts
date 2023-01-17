@@ -2,8 +2,6 @@ import * as hre from "hardhat";
 async function main() {
   await hre.run("compile");
 
-  const node = hre.run("node");
-
   // wait for the node to start
 
   hre.hardhatArguments.network = "localhost";

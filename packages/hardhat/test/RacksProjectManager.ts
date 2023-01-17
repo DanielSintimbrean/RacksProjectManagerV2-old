@@ -48,26 +48,26 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
 
         // const Proxy = await ethers.getContract("TransparentUpgradeableProxy");
         // const RacksPMContract = await ethers.getContract("RacksProjectManager");
-        const ProxyImplementation = await RacksPM.attach(
-          TransparentUpgradeableProxy.address
+        const ProxyImplementation = RacksPM.attach(
+          TransparentUpgradeableProxy.address,
         );
-        racksPM = await ProxyImplementation.connect(deployer);
+        racksPM = ProxyImplementation.connect(deployer);
 
         const tx = await racksPM.createProject(
           "Project1",
           ethers.utils.parseEther("100"),
           1,
-          2
+          2,
         );
 
         await tx.wait();
 
         const events = await racksPM.queryFilter(
-          racksPM.filters.newProjectCreated()
+          racksPM.filters.newProjectCreated(),
         );
 
         const lastEvent = events.sort(
-          (a, b) => b.blockNumber - a.blockNumber
+          (a, b) => b.blockNumber - a.blockNumber,
         )[0];
 
         const newProjectAddress = lastEvent.args.newProjectAddress;
@@ -92,7 +92,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           await mrc.connect(user1).mint(1);
 
           expect(await mrc.balanceOf(user1.address)).to.deep.equal(
-            BigNumber.from(1)
+            BigNumber.from(1),
           );
         });
       });
@@ -102,7 +102,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           await expect(
             racksPM
               .connect(user1)
-              .createProject("Project2", ethers.utils.parseEther("100"), 1, 2)
+              .createProject("Project2", ethers.utils.parseEther("100"), 1, 2),
           ).to.be.revertedWithCustomError(racksPM, "adminErr");
         });
 
@@ -112,11 +112,11 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
               "Project2",
               ethers.utils.parseEther("100"),
               0,
-              2
-            )
+              2,
+            ),
           ).to.be.revertedWithCustomError(
             racksPM,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
 
           await expect(
@@ -124,18 +124,18 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
               "Project2",
               ethers.utils.parseEther("100"),
               1,
-              0
-            )
+              0,
+            ),
           ).to.be.revertedWithCustomError(
             racksPM,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
 
           await expect(
-            racksPM.createProject("", ethers.utils.parseEther("100"), 1, 3)
+            racksPM.createProject("", ethers.utils.parseEther("100"), 1, 3),
           ).to.be.revertedWithCustomError(
             racksPM,
-            "projectInvalidParameterErr"
+            "projectInvalidParameterErr",
           );
         });
 
@@ -151,18 +151,18 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           await tx.wait();
 
           const events = await racksPM.queryFilter(
-            racksPM.filters.newProjectCreated()
+            racksPM.filters.newProjectCreated(),
           );
 
           const lastEvent = events.sort(
-            (a, b) => b.blockNumber - a.blockNumber
+            (a, b) => b.blockNumber - a.blockNumber,
           )[0];
 
           const project2Address = lastEvent.args.newProjectAddress;
 
           const project2 = await ethers.getContractAt(
             "Project",
-            project2Address
+            project2Address,
           );
           await project2.approveProject();
 
@@ -172,7 +172,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           await expect(
             racksPM
               .connect(user1)
-              .createProject("Project3", ethers.utils.parseEther("100"), 1, 2)
+              .createProject("Project3", ethers.utils.parseEther("100"), 1, 2),
           ).to.be.revertedWithCustomError(racksPM, "adminErr");
 
           let projects = await racksPM.getProjects();
@@ -200,16 +200,14 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
             .connect(user2)
             .fundProject(ethers.utils.parseEther("500"));
 
-          await expect(
-            await project2.getAccountFunds(user2.address)
-          ).to.be.equal(ethers.utils.parseEther("500"));
-          await expect(await project2.getTotalAmountFunded()).to.be.equal(
-            ethers.utils.parseEther("500")
+          expect(await project2.getAccountFunds(user2.address)).to.be.equal(
+            ethers.utils.parseEther("500"),
           );
-          let balanceBefore = await erc20.balanceOf(user2.address);
-          await expect(balanceBefore).to.be.equal(
-            ethers.utils.parseEther("9500")
+          expect(await project2.getTotalAmountFunded()).to.be.equal(
+            ethers.utils.parseEther("500"),
           );
+          const balanceBefore = await erc20.balanceOf(user2.address);
+          expect(balanceBefore).to.be.equal(ethers.utils.parseEther("9500"));
 
           await project2.removeContributor(user1.address, true);
 
@@ -217,16 +215,14 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
 
           await project2.deleteProject();
 
-          await expect(
-            await project2.getAccountFunds(user2.address)
-          ).to.be.equal(ethers.utils.parseEther("0"));
-          await expect(await project2.getTotalAmountFunded()).to.be.equal(
-            ethers.utils.parseEther("0")
+          expect(await project2.getAccountFunds(user2.address)).to.be.equal(
+            ethers.utils.parseEther("0"),
           );
-          let balanceAfter = await erc20.balanceOf(user2.address);
-          await expect(balanceAfter).to.be.equal(
-            ethers.utils.parseEther("10000")
+          expect(await project2.getTotalAmountFunded()).to.be.equal(
+            ethers.utils.parseEther("0"),
           );
+          const balanceAfter = await erc20.balanceOf(user2.address);
+          expect(balanceAfter).to.be.equal(ethers.utils.parseEther("10000"));
 
           expect(await project2.isActive()).to.be.false;
           expect(await project2.isDeleted()).to.be.true;
@@ -238,7 +234,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
             "Project3",
             ethers.utils.parseEther("0"),
             1,
-            2
+            2,
           );
         });
 
@@ -249,7 +245,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           await expect(
             racksPM
               .connect(user1)
-              .createProject("Project2", ethers.utils.parseEther("100"), 1, 2)
+              .createProject("Project2", ethers.utils.parseEther("100"), 1, 2),
           ).to.be.revertedWithCustomError(racksPM, "pausedErr");
         });
       });
@@ -257,7 +253,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
       describe("Register Contributor", () => {
         it("Should revert with holderErr", async () => {
           await expect(
-            racksPM.connect(user1).registerContributor()
+            racksPM.connect(user1).registerContributor(),
           ).to.be.revertedWithCustomError(racksPM, "holderErr");
         });
 
@@ -265,17 +261,17 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           await mrc.connect(user1).mint(1);
           await racksPM.connect(user1).registerContributor();
           await expect(
-            racksPM.connect(user1).registerContributor()
+            racksPM.connect(user1).registerContributor(),
           ).to.be.revertedWithCustomError(
             racksPM,
-            "contributorAlreadyExistsErr"
+            "contributorAlreadyExistsErr",
           );
         });
 
         it("Should register Contributor", async () => {
           await mrc.connect(user1).mint(1);
           await racksPM.connect(user1).registerContributor();
-          let contributor = await racksPM.connect(user1).getContributor(0);
+          const contributor = await racksPM.connect(user1).getContributor(0);
           assert(contributor.wallet == user1.address);
           expect(await racksPM.getNumberOfContributors()).to.deep.equal(1);
         });
@@ -285,7 +281,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
 
           await mrc.connect(user1).mint(1);
           await expect(
-            racksPM.connect(user1).registerContributor()
+            racksPM.connect(user1).registerContributor(),
           ).to.be.revertedWithCustomError(racksPM, "pausedErr");
         });
       });
@@ -293,7 +289,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
       describe("List Projects according to Contributor Level", () => {
         it("Should revert if it is not Holder and it is not Admin", async () => {
           await expect(
-            racksPM.connect(user1).getProjects()
+            racksPM.connect(user1).getProjects(),
           ).to.be.revertedWithCustomError(racksPM, "holderErr");
         });
 
@@ -302,20 +298,20 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
             "Project2",
             ethers.utils.parseEther("100"),
             2,
-            2
+            2,
           );
           await racksPM.createProject(
             "Project3",
             ethers.utils.parseEther("100"),
             3,
-            2
+            2,
           );
 
           await mrc.connect(user1).mint(1);
           const projects = await racksPM.connect(user1).getProjects();
           assert.lengthOf(
             projects.filter((p) => p !== ethers.constants.AddressZero),
-            1
+            1,
           );
         });
 
@@ -324,13 +320,13 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
             "Project2",
             ethers.utils.parseEther("100"),
             2,
-            2
+            2,
           );
           await racksPM.createProject(
             "Project3",
             ethers.utils.parseEther("100"),
             3,
-            2
+            2,
           );
 
           await mrc.connect(user1).mint(1);
@@ -347,7 +343,7 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
           const projects = await racksPM.connect(user1).getProjects();
           assert.lengthOf(
             projects.filter((p) => p !== ethers.constants.AddressZero),
-            2
+            2,
           );
         });
 
@@ -356,19 +352,19 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
             "Project2",
             ethers.utils.parseEther("100"),
             2,
-            2
+            2,
           );
           await racksPM.createProject(
             "Project3",
             ethers.utils.parseEther("100"),
             3,
-            2
+            2,
           );
 
           const projects = await racksPM.getProjects();
           assert.lengthOf(
             projects.filter((p) => p !== ethers.constants.AddressZero),
-            3
+            3,
           );
         });
       });
@@ -376,13 +372,13 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
       describe("Holder Validation", () => {
         it("Add Collection Should revert with Ownable Error", async () => {
           await expect(
-            holderValidation.connect(user1).addCollection(mrc.address)
+            holderValidation.connect(user1).addCollection(mrc.address),
           ).to.be.revertedWith("Ownable: caller is not the owner");
         });
 
         it("Delete Collection Should revert with Ownable Error", async () => {
           await expect(
-            holderValidation.connect(user1).deleteCollection(mrc.address)
+            holderValidation.connect(user1).deleteCollection(mrc.address),
           ).to.be.revertedWith("Ownable: caller is not the owner");
         });
 
@@ -406,14 +402,14 @@ import { deployDevChain } from "../utils/deployments/deployDevChain";
 
         it("Should return false if User is not a holder", async () => {
           expect(await holderValidation.isHolder(user1.address)).to.be.equal(
-            ethers.constants.AddressZero
+            ethers.constants.AddressZero,
           );
         });
 
         it("Should return true if User is a holder", async () => {
           await mrc.connect(user1).mint(1);
           expect(
-            await holderValidation.isHolder(user1.address)
+            await holderValidation.isHolder(user1.address),
           ).to.not.be.equal(ethers.constants.AddressZero);
         });
       });

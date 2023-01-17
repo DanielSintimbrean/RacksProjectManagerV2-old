@@ -11,14 +11,14 @@ export const deployRacksPM = async ({
   ERC20Address,
 }: DeployRacksPM) => {
   const HolderValidation_Factory = await ethers.getContractFactory(
-    "HolderValidation"
+    "HolderValidation",
   );
   const RacksPM_Factory = await ethers.getContractFactory(
-    "RacksProjectManager"
+    "RacksProjectManager",
   );
 
   const HolderValidation = await HolderValidation_Factory.deploy(
-    MrCryptoAddress
+    MrCryptoAddress,
   );
 
   const RacksPM = await RacksPM_Factory.deploy(HolderValidation.address);
@@ -29,6 +29,7 @@ export const deployRacksPM = async ({
     deploymentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
+    // TODO: add etherscan verification
   }
 
   return { RacksPM, HolderValidation };
