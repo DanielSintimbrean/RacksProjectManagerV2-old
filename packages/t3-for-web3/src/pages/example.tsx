@@ -1,46 +1,39 @@
-import { BigNumber } from "ethers";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {
-  useContractRead,
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+
 import Layout from "../componests/Layout";
 import { useSession } from "../hooks/useSession";
-import { abi, address } from "../smart-contracts/abi/racksPM";
 import { trpc } from "../utils/trpc";
 
 const ProfilePage: NextPage = () => {
   const trpcUtils = trpc.useContext();
   const router = useRouter();
 
-  const { data, refetch: refetchGetStorage } = useContractRead({
-    address,
-    abi,
-    functionName: "getContributorData",
-    args: [session.session.user.address],
-  });
+  // const { data, refetch: refetchGetStorage } = useContractRead({
+  //   address,
+  //   abi,
+  //   functionName: "getContributorData",
+  //   args: [session.session.user.address],
+  // });
 
-  const { config } = usePrepareContractWrite({
-    abi,
-    address,
-    functionName: "setStorageVariable2",
-    args: [data ? BigNumber.from(data).add(1) : BigNumber.from(0)],
-    onSuccess: async () => {
-      await refetchGetStorage();
-    },
-  });
+  // const { config } = usePrepareContractWrite({
+  //   abi,
+  //   address,
+  //   functionName: "setStorageVariable2",
+  //   args: [data ? BigNumber.from(data).add(1) : BigNumber.from(0)],
+  //   onSuccess: async () => {
+  //     await refetchGetStorage();
+  //   },
+  // });
 
-  const { write, data: txData } = useContractWrite(config);
+  // const { write, data: txData } = useContractWrite(config);
 
-  useWaitForTransaction({
-    hash: txData?.hash,
-    onSuccess: () => refetchGetStorage(),
-  });
+  // useWaitForTransaction({
+  //   hash: txData?.hash,
+  //   onSuccess: () => refetchGetStorage(),
+  // });
 
   const session = useSession();
   const [newName, setNewName] = useState("");
@@ -62,8 +55,6 @@ const ProfilePage: NextPage = () => {
   if (!session.authenticated) {
     return <Layout>Loading...</Layout>;
   }
-
-  console.log({ write });
 
   return (
     <Layout>
@@ -99,16 +90,15 @@ const ProfilePage: NextPage = () => {
           </form>
         </div>
         <div className="flex flex-col justify-center gap-4 text-center text-white">
-          {write && (
+          {
             <button
               className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-              onClick={() => write()}
+              onClick={() => undefined}
             >
               {" "}
               incrementar número
             </button>
-          )}
-          <span>{data?.toString()}</span>
+          }
         </div>
         <div className="flex flex-row justify-center gap-4 p-48">
           {mrcImages &&

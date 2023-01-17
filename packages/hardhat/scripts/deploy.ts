@@ -1,19 +1,24 @@
-import {ethers} from "hardhat";
+import {deployDevChain} from "../utils/deployments/deployDevChain";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  console.log("Deploying contracts to the hardhat network");
+  const {
+    HolderValidation,
+    MockErc20,
+    MrCryptoNFT,
+    ProxyAdmin,
+    RacksPM,
+    TransparentUpgradeableProxy,
+  } = await deployDevChain();
 
-  const lockedAmount = ethers.utils.parseEther("1");
-
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, {value: lockedAmount});
-
-  await lock.deployed();
-
+  console.log("HolderValidation deployed to:", HolderValidation.address);
+  console.log("MockErc20 deployed to:", MockErc20.address);
+  console.log("MrCryptoNFT deployed to:", MrCryptoNFT.address);
+  console.log("ProxyAdmin deployed to:", ProxyAdmin.address);
+  console.log("RacksPM deployed to:", RacksPM.address);
   console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`,
+    "TransparentUpgradeableProxy deployed to:",
+    TransparentUpgradeableProxy.address,
   );
 }
 
